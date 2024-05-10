@@ -21,6 +21,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     GreetingView(Greeting().greet())
                     GreetingView(Greeting().greet())
+                    GreetingView(Greeting().greet())
                 }
             }
         }

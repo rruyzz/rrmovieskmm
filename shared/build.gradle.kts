@@ -30,6 +30,7 @@ kotlin {
             implementation("io.insert-koin:koin-core:$koinVersion")
             implementation("io.insert-koin:koin-test:$koinVersion")
             //put your multiplatform dependencies here
+            implementation("io.ktor:ktor-client-core:2.3.11")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

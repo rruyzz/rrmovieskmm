@@ -25,6 +25,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            val koinVersion = "3.3.2"
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+            implementation("io.insert-koin:koin-core:$koinVersion")
+            implementation("io.insert-koin:koin-test:$koinVersion")
             //put your multiplatform dependencies here
         }
         commonTest.dependencies {

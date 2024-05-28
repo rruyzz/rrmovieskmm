@@ -1,5 +1,6 @@
 package com.rodolforuiz.rrumovieskmm.android.presentation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,8 +19,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.compose.rememberAsyncImagePainter
+import com.rodolforuiz.rrumovieskmm.android.presentation.views.MovieDetail
+import com.rodolforuiz.rrumovieskmm.android.presentation.views.MoviesList
+import com.rodolforuiz.rrumovieskmm.android.presentation.views.ProgressIndicator
 import com.rodolforuiz.rrumovieskmm.android.utils.cast
 import com.rodolforuiz.rrumovieskmm.data.model.PopularMoviesItem
 import org.koin.androidx.compose.koinViewModel
@@ -31,70 +37,16 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = koinViewModel(),
 ) {
     val uiState: HomeState by viewModel.uiState.collectAsState()
+    if (uiState is HomeState.HomeDetail) {
+        BackHandler { viewModel.onMovieDetailBackClick() }
+    }
     when(uiState) {
         is HomeState.Loading -> ProgressIndicator(uiState.cast<HomeState.Loading>().isLoading)
-        is HomeState.UpdateFavorite ->  MoviesList(uiState.cast<HomeState.UpdateFavorite>().movieDto, selectItem = {
-            navController.navigate("DETAIL")
-
+        is HomeState.HomeScreen ->  MoviesList(uiState.cast<HomeState.HomeScreen>().movieDto, selectItem = {
+            viewModel.onMovieClick(it)
         })
-        else -> {}
+        is HomeState.HomeDetail -> MovieDetail(uiState.cast<HomeState.HomeDetail>().movieDto)
     }
 
 }
 
-@Composable
-fun ProgressIndicator(
-    isLoading: Boolean,
-    modifier: Modifier = Modifier,
-) {
-    if(isLoading) CircularProgressIndicator()
-}
-
-@Composable
-fun MoviesList(
-    moviesList: List<PopularMoviesItem>,
-    selectItem: (Int) -> Unit = {}
-) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3)
-    ) {
-        itemsIndexed(moviesList) { index: Int, item: PopularMoviesItem ->
-            Movies(
-                movie = item,
-                selectItem = {
-                    selectItem(it)
-                }
-            )
-        }
-    }
-}
-
-@Composable
-fun Movies(
-    movie: PopularMoviesItem,
-    selectItem: (Int) -> Unit = {}
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                vertical = 4.dp,
-                horizontal = 8.dp
-            )
-            .clickable{
-                selectItem(movie.id ?: 0)
-            },
-    ) {
-        Box(
-            modifier = Modifier.height(200.dp
-            )
-        ) {
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w500${movie.posterPath}"),
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-            )
-        }
-    }
-}

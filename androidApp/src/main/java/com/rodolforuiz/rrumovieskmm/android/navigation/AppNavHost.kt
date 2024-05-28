@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.rodolforuiz.rrumovieskmm.android.main.GreetingView
 import com.rodolforuiz.rrumovieskmm.android.presentation.HomeScreen
-import com.rodolforuiz.rrumovieskmm.android.presentation.ProgressIndicator
 
 @Composable
 fun AppNavHost(

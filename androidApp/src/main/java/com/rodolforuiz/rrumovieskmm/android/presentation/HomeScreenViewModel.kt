@@ -13,15 +13,16 @@ class HomeScreenViewModel(
     private val homeUseCase: HomeUseCase,
 ): ViewModel() {
 
-    private val _uiState = MutableStateFlow<String>(String())
+    private val _uiState = MutableStateFlow<HomeState>(HomeState.Loading(false))
     val uiState = _uiState.asStateFlow()
 
     init {
         onInit()
     }
-    private fun onInit() = viewModelScope.launch {
+    fun onInit() = viewModelScope.launch {
         homeUseCase.invoke()
-            .onStart { _uiState.emit("loading") }
-            .collect{ _uiState.emit(it.results?.first()?.titleMovie.orEmpty()) }
+            .onStart { _uiState.emit(HomeState.Loading(isLoading = true)) }
+//            .onCompletion { _uiState.emit(HomeState.Loading(isLoading = false)) }
+            .collect { _uiState.emit(HomeState.UpdateFavorite(movieDto = it.results.orEmpty())) }
     }
 }

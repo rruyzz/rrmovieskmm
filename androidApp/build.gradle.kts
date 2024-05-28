@@ -50,4 +50,5 @@ dependencies {
     implementation ("io.insert-koin:koin-android:$koinVersion")
     implementation ("io.insert-koin:koin-androidx-compose:3.4.1")
     implementation("io.ktor:ktor-client-okhttp:2.3.11")
+    implementation("io.coil-kt:coil-compose:2.6.0")
 }

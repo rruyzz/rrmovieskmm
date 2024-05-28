@@ -28,5 +28,9 @@ fun AppNavHost(
         composable(NavigationItem.Saved.route) {
             GreetingView("dsadsfsadfd")
         }
+
+        composable(NavigationItem.Search.route) {
+            GreetingView("Search")
+        }
     }
 }

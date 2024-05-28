@@ -1,6 +1,7 @@
 package com.rodolforuiz.rrumovieskmm.android.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,29 +18,28 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.rodolforuiz.rrumovieskmm.android.utils.cast
 import com.rodolforuiz.rrumovieskmm.data.model.PopularMoviesItem
 import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun HomeScreen(
+    navController: NavController,
     viewModel: HomeScreenViewModel = koinViewModel(),
 ) {
     val uiState: HomeState by viewModel.uiState.collectAsState()
-
     when(uiState) {
         is HomeState.Loading -> ProgressIndicator(uiState.cast<HomeState.Loading>().isLoading)
         is HomeState.UpdateFavorite ->  MoviesList(uiState.cast<HomeState.UpdateFavorite>().movieDto, selectItem = {
-            viewModel.onInit()
+            navController.navigate("DETAIL")
+
         })
         else -> {}
     }
 
-}
-
-inline fun <reified T : Any> Any.cast(): T {
-    return this as T
 }
 
 @Composable
@@ -59,22 +59,36 @@ fun MoviesList(
         columns = GridCells.Fixed(3)
     ) {
         itemsIndexed(moviesList) { index: Int, item: PopularMoviesItem ->
-            Movies(item)
+            Movies(
+                movie = item,
+                selectItem = {
+                    selectItem(it)
+                }
+            )
         }
     }
 }
 
 @Composable
-fun Movies(movie: PopularMoviesItem) {
+fun Movies(
+    movie: PopularMoviesItem,
+    selectItem: (Int) -> Unit = {}
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
                 vertical = 4.dp,
                 horizontal = 8.dp
-            ),
+            )
+            .clickable{
+                selectItem(movie.id ?: 0)
+            },
     ) {
-        Box(modifier = Modifier.height(200.dp)){
+        Box(
+            modifier = Modifier.height(200.dp
+            )
+        ) {
             Image(
                 modifier = Modifier.fillMaxSize(),
                 painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w500${movie.posterPath}"),

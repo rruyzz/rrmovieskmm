@@ -1,4 +1,4 @@
-package com.rodolforuiz.rrumovieskmm.android
+package com.rodolforuiz.rrumovieskmm.android.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,7 +9,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.rodolforuiz.rrumovieskmm.Greeting
+import androidx.navigation.compose.rememberNavController
+import com.rodolforuiz.rrumovieskmm.android.MyApplicationTheme
+import com.rodolforuiz.rrumovieskmm.android.navigation.AppNavHost
 import com.rodolforuiz.rrumovieskmm.android.presentation.HomeScreen
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +23,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    HomeScreen()
+                    AppNavHost(navController = rememberNavController())
+//                    HomeScreen()
                 }
             }
         }

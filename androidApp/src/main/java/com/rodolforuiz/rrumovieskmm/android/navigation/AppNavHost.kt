@@ -22,9 +22,11 @@ fun AppNavHost(
         composable(NavigationItem.Home.route) {
             HomeScreen(navController)
         }
-        composable(NavigationItem.DETAIL.route) {
+        composable(NavigationItem.Profile.route) {
             GreetingView("dsad")
-//            LoginScreen(navController)
+        }
+        composable(NavigationItem.Saved.route) {
+            GreetingView("dsadsfsadfd")
         }
     }
 }

@@ -52,4 +52,5 @@ dependencies {
     implementation("io.ktor:ktor-client-okhttp:2.3.11")
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation ("androidx.navigation:navigation-compose:2.7.1")
+    implementation ("androidx.compose.material:material:1.5.1")
 }

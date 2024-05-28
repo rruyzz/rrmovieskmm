@@ -22,6 +22,6 @@ class HomeScreenViewModel(
     private fun onInit() = viewModelScope.launch {
         homeUseCase.invoke()
             .onStart { _uiState.emit("loading") }
-            .collect{ _uiState.emit(it) }
+            .collect{ _uiState.emit(it.results?.first()?.titleMovie.orEmpty()) }
     }
 }

@@ -7,13 +7,18 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.get
-import io.ktor.client.statement.bodyAsText
 import co.touchlab.kermit.Logger as KermitLog
-
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.statement.HttpResponse
+import io.ktor.serialization.kotlinx.json.json
 
 class KtorHttpClient {
 
     private val client = HttpClient {
+        install(ContentNegotiation) {
+            json()
+        }
+
         install(Logging)  {
             logger = Logger.SIMPLE
             level = LogLevel.ALL
@@ -34,8 +39,8 @@ class KtorHttpClient {
         }
     }
 
-    suspend fun getData(endPoint: String): String {
+    suspend fun getKtorEndpoint(endPoint: String): HttpResponse {
         val response = client.get(endPoint)
-        return response.bodyAsText()
+        return response
     }
 }

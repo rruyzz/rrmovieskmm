@@ -31,6 +31,8 @@ kotlin {
             implementation("io.insert-koin:koin-test:$koinVersion")
             //put your multiplatform dependencies here
             implementation("io.ktor:ktor-client-core:2.3.11")
+            implementation( "io.ktor:ktor-client-logging:2.3.11")
+            implementation("co.touchlab:kermit:1.0.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

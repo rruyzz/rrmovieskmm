@@ -17,17 +17,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.rodolforuiz.rrumovieskmm.data.model.PopularMoviesItem
+import com.rodolforuiz.rrumovieskmm.domain.model.PopularMoviesDto
 
 
 @Composable
 fun MoviesList(
-    moviesList: List<PopularMoviesItem>,
-    selectItem: (PopularMoviesItem) -> Unit = {}
+    moviesList: List<PopularMoviesDto>,
+    selectItem: (PopularMoviesDto) -> Unit = {}
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3)
     ) {
-        itemsIndexed(moviesList) { index: Int, item: PopularMoviesItem ->
+        itemsIndexed(moviesList) { index: Int, item: PopularMoviesDto ->
             Movies(
                 movie = item,
                 selectItem = {
@@ -40,8 +41,8 @@ fun MoviesList(
 
 @Composable
 fun Movies(
-    movie: PopularMoviesItem,
-    selectItem: (PopularMoviesItem) -> Unit = {}
+    movie: PopularMoviesDto,
+    selectItem: (PopularMoviesDto) -> Unit = {}
 ) {
     Card(
         modifier = Modifier

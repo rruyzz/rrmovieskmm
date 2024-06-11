@@ -23,11 +23,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.rodolforuiz.rrumovieskmm.data.model.PopularMoviesItem
+import com.rodolforuiz.rrumovieskmm.domain.model.PopularMoviesDto
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetail(
-    movie: PopularMoviesItem,
+    movie: PopularMoviesDto,
     pressOnBack: () -> Unit = {},
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()

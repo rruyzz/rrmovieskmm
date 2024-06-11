@@ -3,6 +3,7 @@ package com.rodolforuiz.rrumovieskmm.android.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rodolforuiz.rrumovieskmm.data.model.PopularMoviesItem
+import com.rodolforuiz.rrumovieskmm.domain.model.PopularMoviesDto
 import com.rodolforuiz.rrumovieskmm.domain.usecase.HomeUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,15 +24,15 @@ class HomeScreenViewModel(
     fun onInit() = viewModelScope.launch {
         homeUseCase.invoke()
             .onStart { _uiState.emit(HomeState.Loading(isLoading = true)) }
-            .collect { handleSuccess(movieDto = it.results.orEmpty()) }
+            .collect { handleSuccess(movieDto = it) }
     }
 
-    private fun handleSuccess(movieDto: List<PopularMoviesItem>) = viewModelScope.launch {
+    private fun handleSuccess(movieDto: List<PopularMoviesDto>) = viewModelScope.launch {
         homeState = HomeState.HomeScreen(movieDto = movieDto)
         _uiState.emit(homeState)
     }
 
-    fun onMovieClick(movie: PopularMoviesItem) = viewModelScope.launch {
+    fun onMovieClick(movie: PopularMoviesDto) = viewModelScope.launch {
         _uiState.emit(HomeState.HomeDetail(movieDto = movie))
     }
 

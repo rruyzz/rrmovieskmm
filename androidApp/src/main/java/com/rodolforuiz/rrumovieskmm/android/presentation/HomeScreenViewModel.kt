@@ -15,6 +15,7 @@ class HomeScreenViewModel(
 
     private val _uiState = MutableStateFlow<HomeState>(HomeState.Loading(false))
     val uiState = _uiState.asStateFlow()
+    private var homeState = HomeState.HomeScreen(movieDto = listOf())
 
     init {
         onInit()
@@ -22,8 +23,12 @@ class HomeScreenViewModel(
     fun onInit() = viewModelScope.launch {
         homeUseCase.invoke()
             .onStart { _uiState.emit(HomeState.Loading(isLoading = true)) }
-//            .onCompletion { _uiState.emit(HomeState.Loading(isLoading = false)) }
-            .collect { _uiState.emit(HomeState.HomeScreen(movieDto = it.results.orEmpty())) }
+            .collect { handleSuccess(movieDto = it.results.orEmpty()) }
+    }
+
+    private fun handleSuccess(movieDto: List<PopularMoviesItem>) = viewModelScope.launch {
+        homeState = HomeState.HomeScreen(movieDto = movieDto)
+        _uiState.emit(homeState)
     }
 
     fun onMovieClick(movie: PopularMoviesItem) = viewModelScope.launch {
@@ -31,6 +36,6 @@ class HomeScreenViewModel(
     }
 
     fun onMovieDetailBackClick() =  viewModelScope.launch {
-        onInit()
+        _uiState.emit(homeState)
     }
 }

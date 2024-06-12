@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -56,8 +58,9 @@ fun Movies(
             },
     ) {
         Box(
-            modifier = Modifier.height(200.dp
-            )
+            modifier = Modifier
+                .height(200.dp)
+                .clip(shape = RoundedCornerShape(16.dp, 16.dp, 16.dp, 16.dp))
         ) {
             Image(
                 modifier = Modifier.fillMaxSize(),

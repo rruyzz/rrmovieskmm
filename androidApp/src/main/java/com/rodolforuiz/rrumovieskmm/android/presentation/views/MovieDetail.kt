@@ -14,9 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -63,55 +63,56 @@ fun MovieDetail(
                 },
                 scrollBehavior = scrollBehavior,
                 onFavoriteClick = {
-                                  },
+                },
                 isSaved = false
             )
         },
         content = {
-            Box(
+            Surface(
                 modifier = Modifier
-                    .padding(it),
+                    .padding(it)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                color = Color.Transparent
             ) {
-                MovieBackground(movie = movie, modifier = Modifier)
-                Column {
-                    Spacer(
-                        modifier = Modifier
-                            .height(117.dp)
-                    )
-                    Surface(
-                        modifier = Modifier.wrapContentSize(),
-                        color = Color.Transparent
+                Box(
+                    modifier = Modifier
+                ) {
+                    MovieBackground(movie = movie, modifier = Modifier)
+                    Column(
+                        modifier = Modifier.padding(0.dp, 117.dp, 0.dp, 0.dp)
                     ) {
                         Row(
                             modifier = Modifier
-                                .wrapContentHeight()
-                            ,
-                        ) {
-                            Spacer(modifier = Modifier.width(8.dp))
+                                .fillMaxWidth()
+                                .height(IntrinsicSize.Min)
+                        )
+                        {
+                            Spacer(
+                                modifier = Modifier
+                                    .width(8.dp)
+                            )
                             MoviePoster(movie = movie, modifier = Modifier)
                             Spacer(modifier = Modifier.width(8.dp))
-                            TitleMovie(movie = movie, modifier = Modifier.fillMaxHeight(fraction=.5f) )
+                            TitleMovie(
+                                movie = movie,
+                                modifier = Modifier.fillMaxSize()
+                            )
                             Spacer(modifier = Modifier.width(8.dp))
                         }
+                        Spacer(modifier = Modifier.height(16.dp))
+                        DescriptionMovie(
+                            modifier = Modifier,
+                            movie = movie,
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        TabRowComponent()
                     }
-                    DescriptionMovie(
-                        modifier = Modifier,
-                        movie = movie,
-                    )
-                    TabRowComponent()
                 }
             }
         }
     )
-}
-@Composable
-fun MovieDetailColumn(
-    movie: PopularMoviesDto,
-    modifier: Modifier,
-) {
-    Column {
-        MovieBackground(movie = movie, modifier = modifier)
-    }
 }
 
 @Composable
@@ -131,14 +132,14 @@ fun DescriptionMovie(
             contentDescription = null,
             tint = Color.Gray
         )
-        Spacer(modifier = Modifier.padding(4.dp,0.dp))
+        Spacer(modifier = Modifier.padding(4.dp, 0.dp))
         Divider(
             color = Color.Gray,
             modifier = Modifier
                 .fillMaxHeight()
                 .width(1.dp)
         )
-        Spacer(modifier = Modifier.padding(4.dp,0.dp))
+        Spacer(modifier = Modifier.padding(4.dp, 0.dp))
         Text(
             fontWeight = FontWeight.Light,
             text = movie.releaseDate.take(4),
@@ -154,14 +155,14 @@ fun TitleMovie(
     modifier: Modifier,
 ) {
     Column(
-        modifier = modifier,
-        ) {
-        Box(modifier = modifier.fillMaxHeight(1.0f).fillMaxWidth())
-        Box(modifier = Modifier) {
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Bottom,
+    ) {
+        Box {
             Text(
                 text = movie.titleMovie,
                 color = Color.White,
-                modifier = Modifier
+                modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 16.dp)
             )
         }
     }
@@ -179,9 +180,9 @@ fun GradeMovieDescription(
                 color = MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(4.dp)
             )
-            .padding(8.dp)
-        ,
-        horizontalArrangement = Arrangement.End,) {
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.End,
+    ) {
         Icon(
             imageVector = Icons.Outlined.Star,
             contentDescription = null,
@@ -193,9 +194,11 @@ fun GradeMovieDescription(
         )
         Text(
             text = movie.voteAverage,
-            color = Color(0xFFFF8700),)
+            color = Color(0xFFFF8700),
+        )
         Spacer(
-            modifier = Modifier.width(8.dp))
+            modifier = Modifier.width(8.dp)
+        )
     }
 }
 
@@ -203,7 +206,7 @@ fun GradeMovieDescription(
 fun MoviePoster(
     movie: PopularMoviesDto,
     modifier: Modifier,
-    ) {
+) {
     Box(
         modifier = modifier
             .clip(shape = RoundedCornerShape(16.dp, 16.dp, 16.dp, 16.dp))
@@ -216,6 +219,7 @@ fun MoviePoster(
         )
     }
 }
+
 @Composable
 fun MovieBackground(
     movie: PopularMoviesDto,
@@ -224,8 +228,7 @@ fun MovieBackground(
     Box(
         modifier = modifier
             .height(234.dp)
-            .clip(shape = RoundedCornerShape(0.dp, 0.dp, 16.dp, 16.dp))
-        ,
+            .clip(shape = RoundedCornerShape(0.dp, 0.dp, 16.dp, 16.dp)),
     ) {
         Image(
             modifier = modifier.fillMaxSize(),
@@ -237,8 +240,7 @@ fun MovieBackground(
             movie = movie,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(8.dp)
-            ,
+                .padding(8.dp),
         )
     }
 }
@@ -282,12 +284,12 @@ fun RRMoviesToolbar(
             IconButton(onClick = {
                 colorState.value = isSavedState.not()
                 onFavoriteClick()
-            } ) {
+            }) {
                 Icon(
                     imageVector = Icons.Filled.Favorite,
                     contentDescription = null,
                     tint = iconColor,
-                    )
+                )
             }
         },
         scrollBehavior = scrollBehavior,

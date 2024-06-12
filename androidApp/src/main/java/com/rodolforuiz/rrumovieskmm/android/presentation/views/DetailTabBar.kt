@@ -23,20 +23,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import com.rodolforuiz.rrumovieskmm.Greeting
 import com.rodolforuiz.rrumovieskmm.android.main.GreetingView
-import com.rodolforuiz.rrumovieskmm.android.navigation.Screen
 
 @Composable
 fun TabRowComponent(
-    modifier: Modifier = Modifier.fillMaxHeight(),
+    modifier: Modifier = Modifier,
 ) {
     val tabs = listOf(
         "Sobre o filme",
@@ -46,7 +38,7 @@ fun TabRowComponent(
     var selectedTabIndex by remember { mutableStateOf(0) }
 
     // Column layout to arrange tabs vertically and display content screens
-    Column(modifier = modifier.fillMaxSize()) {
+    Column(modifier = modifier) {
         // TabRow composable to display tabs
         TabRow(
             selectedTabIndex = selectedTabIndex,

@@ -29,48 +29,44 @@ import com.rodolforuiz.rrumovieskmm.android.main.GreetingView
 @Composable
 fun TabRowComponent(
     modifier: Modifier = Modifier,
+    description: String,
 ) {
     val tabs = listOf(
         "Sobre o filme",
         "Elenco",
     )
-    // State to keep track of the selected tab index
     var selectedTabIndex by remember { mutableStateOf(0) }
-
-    // Column layout to arrange tabs vertically and display content screens
     Column(modifier = modifier) {
-        // TabRow composable to display tabs
         TabRow(
             selectedTabIndex = selectedTabIndex,
             contentColor = Color.White,
             backgroundColor = MaterialTheme.colorScheme.background,
             indicator = { tabPositions ->
-                // Indicator for the selected tab
                 TabRowDefaults.Indicator(
                     modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
                     color = Color.Gray
                 )
             }
         ) {
-            // Iterate through each tab title and create a tab
             tabs.forEachIndexed { index, tabTitle ->
                 Tab(
                     modifier = Modifier.padding(all = 16.dp).background(MaterialTheme.colorScheme.background),
                     selected = selectedTabIndex == index,
                     onClick = { selectedTabIndex = index }
                 ) {
-                    // Text displayed on the tab
                     Text(text = tabTitle)
                 }
             }
         }
-
-        // Display the content screen corresponding to the selected tab
         if(selectedTabIndex == 0) {
-            GreetingView("Outro")
+            DescriptionView(description)
         } else {
             GreetingView("Search")
         }
-//        contentScreens.getOrNull(selectedTabIndex)?.invoke()
     }
+}
+
+@Composable
+fun DescriptionView(description: String) {
+    Text(text = description, modifier = Modifier.fillMaxHeight().padding(16.dp))
 }

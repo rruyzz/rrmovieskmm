@@ -98,6 +98,7 @@ fun MovieDetail(
                         modifier = Modifier,
                         movie = movie,
                     )
+                    TabRowComponent()
                 }
             }
         }

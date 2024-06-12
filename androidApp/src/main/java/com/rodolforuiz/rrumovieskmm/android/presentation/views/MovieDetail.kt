@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -38,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -87,10 +90,14 @@ fun MovieDetail(
                             Spacer(modifier = Modifier.width(8.dp))
                             MoviePoster(movie = movie, modifier = Modifier)
                             Spacer(modifier = Modifier.width(8.dp))
-                            TitleMovieDescription(movie = movie, modifier = Modifier.fillMaxHeight(fraction=.5f) )
+                            TitleMovie(movie = movie, modifier = Modifier.fillMaxHeight(fraction=.5f) )
                             Spacer(modifier = Modifier.width(8.dp))
                         }
                     }
+                    DescriptionMovie(
+                        modifier = Modifier,
+                        movie = movie,
+                    )
                 }
             }
         }
@@ -105,8 +112,43 @@ fun MovieDetailColumn(
         MovieBackground(movie = movie, modifier = modifier)
     }
 }
+
 @Composable
-fun TitleMovieDescription(
+fun DescriptionMovie(
+    movie: PopularMoviesDto,
+    modifier: Modifier,
+) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        modifier = modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min)
+
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.Star,
+            contentDescription = null,
+            tint = Color.Gray
+        )
+        Spacer(modifier = Modifier.padding(4.dp,0.dp))
+        Divider(
+            color = Color.Gray,
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(1.dp)
+        )
+        Spacer(modifier = Modifier.padding(4.dp,0.dp))
+        Text(
+            fontWeight = FontWeight.Light,
+            text = movie.releaseDate.take(4),
+            color = Color.Gray,
+            modifier = Modifier
+        )
+    }
+}
+
+@Composable
+fun TitleMovie(
     movie: PopularMoviesDto,
     modifier: Modifier,
 ) {

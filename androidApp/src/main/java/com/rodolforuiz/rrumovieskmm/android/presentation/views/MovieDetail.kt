@@ -107,7 +107,7 @@ fun MovieDetail(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        TabRowComponent(description = movie.overview)
+                        TabRowComponent(description = movie.overview, movieId = movie.id.toString())
                     }
                 }
             }

@@ -2,6 +2,7 @@ package com.rodolforuiz.rrumovieskmm.android
 
 import android.app.Application
 import com.rodolforuiz.rrumovieskmm.android.presentation.HomeScreenViewModel
+import com.rodolforuiz.rrumovieskmm.android.presentation.cast.CastScreenViewModel
 import com.rodolforuiz.rrumovieskmm.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -24,6 +25,11 @@ class MainApp: Application() {
         viewModel {
             HomeScreenViewModel(
                 homeUseCase = get()
+            )
+        }
+        viewModel {
+            CastScreenViewModel(
+                castUseCase = get()
             )
         }
     }

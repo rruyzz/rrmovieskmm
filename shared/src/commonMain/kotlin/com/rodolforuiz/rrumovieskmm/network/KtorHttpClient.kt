@@ -11,12 +11,15 @@ import co.touchlab.kermit.Logger as KermitLog
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.statement.HttpResponse
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 
 class KtorHttpClient {
 
     private val client = HttpClient {
         install(ContentNegotiation) {
-            json()
+            json(Json {
+                ignoreUnknownKeys = true
+            })
         }
 
         install(Logging)  {

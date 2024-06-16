@@ -24,12 +24,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.rodolforuiz.rrumovieskmm.android.main.GreetingView
+import com.rodolforuiz.rrumovieskmm.android.presentation.cast.CastScreen
 
 @Composable
 fun TabRowComponent(
     modifier: Modifier = Modifier,
     description: String,
+    movieId: String,
 ) {
     val tabs = listOf(
         "Sobre o filme",
@@ -50,7 +51,9 @@ fun TabRowComponent(
         ) {
             tabs.forEachIndexed { index, tabTitle ->
                 Tab(
-                    modifier = Modifier.padding(all = 16.dp).background(MaterialTheme.colorScheme.background),
+                    modifier = Modifier
+                        .padding(all = 16.dp)
+                        .background(MaterialTheme.colorScheme.background),
                     selected = selectedTabIndex == index,
                     onClick = { selectedTabIndex = index }
                 ) {
@@ -61,12 +64,14 @@ fun TabRowComponent(
         if(selectedTabIndex == 0) {
             DescriptionView(description)
         } else {
-            GreetingView("Search")
+            CastScreen(movieId = movieId)
         }
     }
 }
 
 @Composable
 fun DescriptionView(description: String) {
-    Text(text = description, modifier = Modifier.fillMaxHeight().padding(16.dp))
+    Text(text = description, modifier = Modifier
+        .fillMaxHeight()
+        .padding(16.dp))
 }
